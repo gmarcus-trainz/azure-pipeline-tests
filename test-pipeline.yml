@@ -20,9 +20,9 @@ trigger:
   # include:
   #   - "development" 
 
-  paths:
-    exclude:
-      - __Scripts/* # exclude the scripts folder
+# - paths:
+#     exclude:
+#       - __Scripts/* # exclude the scripts folder
   
 
 variables:
@@ -83,12 +83,12 @@ stages:
           steps:
           - download: current
             artifact: drop
-          - task: AzureWebApp@1
-            displayName: 'Azure App Service Deploy: website'
-            inputs:
-              azureSubscription: 'Tricia'
-              appName: '$(WebAppName)'
-              package: '$(Pipeline.Workspace)/drop/$(buildConfiguration)/*.zip'
+          # - task: AzureWebApp@1
+          #   displayName: 'Azure App Service Deploy: website'
+          #   inputs:
+          #     azureSubscription: 'Tricia'
+          #     appName: '$(WebAppName)'
+          #     package: '$(Pipeline.Workspace)/drop/$(buildConfiguration)/*.zip'
 - stage: 'Test'
   displayName: 'Deploy to the Test environment'
   dependsOn: Dev
@@ -106,16 +106,18 @@ stages:
           steps:
           - download: current
             artifact: drop
-          - task: AzureWebApp@1
-            displayName: 'Azure App Service Deploy: website'
-            inputs:
-              azureSubscription: 'Tricia'
-              appName: '$(WebAppNameTest)'
-              package: '$(Pipeline.Workspace)/drop/$(buildConfiguration)/*.zip'
+          # - task: AzureWebApp@1
+          #   displayName: 'Azure App Service Deploy: website'
+          #   inputs:
+          #     azureSubscription: 'Tricia'
+          #     appName: '$(WebAppNameTest)'
+          #     package: '$(Pipeline.Workspace)/drop/$(buildConfiguration)/*.zip'
           - task: Npm@1
-            displayName: 'Run npm install'
             inputs:
+              command: 'install'
+              workingDir: '/clientapp/e2e'
               verbose: false
+            displayName: 'Run npm install'
 
           - script: './node_modules/cypress/bin/cypress run --record'
             displayName: 'Run Cypress Automation Tests'

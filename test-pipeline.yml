@@ -118,9 +118,21 @@ stages:
               workingDir: '/clientapp/e2e'
               verbose: false
             displayName: 'Run npm install'
+          
+          - task: PowerShell@2
+            inputs:
+              filePath: './node_modules/cypress/bin/cypress run'
+              arguments: 'record'
+              errorActionPreference: 'continue'
+              warningPreference: 'continue'
+              informationPreference: 'continue'
+              verbosePreference: 'continue'
+              debugPreference: 'continue'
+              workingDirectory: 'clientapp/e2e'
 
-          - script: './node_modules/cypress/bin/cypress run --record'
-            displayName: 'Run Cypress Automation Tests'
-
+          - task: PublishTestResults@2
+            inputs:
+              testResultsFormat: 'JUnit'
+              testResultsFiles: '**/TEST-*.xml'
 
 

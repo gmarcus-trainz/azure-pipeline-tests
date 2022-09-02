@@ -82,14 +82,8 @@ stages:
       runOnce:
         deploy:
           steps:
-          - download: current
-            artifact: drop
-          # - task: AzureWebApp@1
-          #   displayName: 'Azure App Service Deploy: website'
-          #   inputs:
-          #     azureSubscription: 'Tricia'
-          #     appName: '$(WebAppName)'
-          #     package: '$(Pipeline.Workspace)/drop/$(buildConfiguration)/*.zip'
+          - template: deploy.yml
+        
 - stage: 'Test'
   displayName: 'Deploy to the Test environment'
   dependsOn: Dev
@@ -104,15 +98,9 @@ stages:
     strategy:
       runOnce:
         deploy:
-          steps:
-          - download: current
-            artifact: drop
-          # - task: AzureWebApp@1
-          #   displayName: 'Azure App Service Deploy: website'
-          #   inputs:
-          #     azureSubscription: 'Tricia'
-          #     appName: '$(WebAppNameTest)'
-          #     package: '$(Pipeline.Workspace)/drop/$(buildConfiguration)/*.zip'
+           steps:
+          - template: deploy.yml
+
   - job: RunUITests
     dependsOn: Deploy
     displayName: 'Run UI tests'
@@ -157,13 +145,6 @@ stages:
       runOnce:
         deploy:
           steps:
-          - download: current
-            artifact: drop
-          # - task: AzureWebApp@1
-          #   displayName: 'Azure App Service Deploy: website'
-          #   inputs:
-          #     azureSubscription: 'Resource Manager - Tailspin - Space Game'
-          #     appName: '$(WebAppNameStaging)'
-          #     package: '$(Pipeline.Workspace)/drop/$(buildConfiguration)/*.zip'
+          - template: deploy.yml
 
 

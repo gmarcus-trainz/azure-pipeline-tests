@@ -1,40 +1,48 @@
 parameters:
-    webSiteName: "Dev.Trainz.Tricia"
-    projectName: 'Dev.Trainz.Tricia'
-    appPoolName: 'Dev.Trainz.Trizia'
-    buildConfiguration: 'Release'
-    
+- name: webSiteName
+  type: string
+  default: 'Dev.Trainz.Tricia'
+- name: projectName
+  type: string
+  default: 'Dev.Trainz.Tricia'
+- name: appPoolName
+  type: string
+  default: 'Dev.Trainz.Tricia'
+- name: buildConfiguration
+  type: string
+  default: 'Release'
+
 steps:
 - download: current
   artifact: drop
 
 - task: IISWebAppManagementOnMachineGroup@0
-        inputs:            
-          IISDeploymentType: 'IISWebsite'
-          ActionIISWebsite: 'CreateOrUpdateWebsite'
-          WebsiteName: '${{parameters.websiteName}}'
-          WebsitePhysicalPath: '%SystemDrive%\inetpub\wwwroot\${{parameters.websiteName}}'
-          WebsitePhysicalPathAuth: 'WebsiteUserPassThrough'
-          CreateOrUpdateAppPoolForWebsite: true
-          AppPoolNameForWebsite: '${{ parameters.appPoolName}}'
-          DotNetVersionForWebsite: 'No Managed Code'
-          PipeLineModeForWebsite: 'Integrated'
-          AppPoolIdentityForWebsite: 'ApplicationPoolIdentity'
-          AddBinding: true
-          Bindings: |
-              {
-                  bindings:[
-                      {
-                          "protocol":"http",
-                          "ipAddress":"",
-                          "hostname":"",
-                          "port":"80",
-                          "sslThumbprint":"",
-                          "sniFlag":false
-                      }
-                  ]
-              }
+  inputs:
+    IISDeploymentType: 'IISWebsite'
+    ActionIISWebsite: 'CreateOrUpdateWebsite'
+    WebsiteName: '${{parameters.websiteName}}'
+    WebsitePhysicalPath: '%SystemDrive%\inetpub\wwwroot\${{parameters.websiteName}}'
+    WebsitePhysicalPathAuth: 'WebsiteUserPassThrough'
+    CreateOrUpdateAppPoolForWebsite: true
+    AppPoolNameForWebsite: '${{ parameters.appPoolName}}'
+    DotNetVersionForWebsite: 'No Managed Code'
+    PipeLineModeForWebsite: 'Integrated'
+    AppPoolIdentityForWebsite: 'ApplicationPoolIdentity'
+    AddBinding: true
+    Bindings: |
+        {
+            bindings: [
+                {
+                    "protocol": "http",
+                    "ipAddress": "",
+                    "hostname": "",
+                    "port": "80",
+                    "sslThumbprint": "",
+                    "sniFlag": false
+                }
+            ]
+        }
 - task: IISWebAppDeploymentOnMachineGroup@0
-        inputs:
-          WebSiteName: '${{parameters.websiteName}}'
-          Package: '$(Pipeline.Workspace)/drop/${{parameters.buildConfiguration}}/${{parameters.projectName}}.zip'
+  inputs:
+    WebSiteName: '${{parameters.websiteName}}'
+    Package: '$(Pipeline.Workspace)/drop/${{parameters.buildConfiguration}}/${{parameters.projectName}}.zip'

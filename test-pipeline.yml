@@ -92,7 +92,9 @@ stages:
   - deployment: Deploy
     pool:
       vmImage: "$(vmImageSource)"
-    environment: test
+    environment: 
+       name: 'Test'    
+       resourceType: VirtualMachine
     strategy:
       runOnce:
         deploy:
@@ -138,7 +140,9 @@ stages:
   - deployment: Deploy
     pool:
       vmImage: "$(vmImageSource)"
-    environment: production
+    environment: 
+        name: 'Production'    
+        resourceType: VirtualMachine
     strategy:
       runOnce:
         deploy:

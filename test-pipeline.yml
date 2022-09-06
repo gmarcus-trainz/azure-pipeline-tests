@@ -29,9 +29,6 @@ variables:
   buildConfiguration: "Release"
   releaseBranchName: 'development'
   vmImageSource: 'windows-latest'
-  projectName: 'Trainz.Tricia'
-  websiteName: 'Trainz.Tricia'
-  appPoolName: 'Trainz.Trizia'
 
 stages:
 - stage: "Build"
@@ -81,14 +78,16 @@ stages:
     environment: 
        name: 'Dev'    
        resourceType: VirtualMachine
-    variables:
-     - name: websitePhysicalPath
-       value: '%SystemDrive%\inetpub\wwwroot\$(websiteName)'
     strategy:
       runOnce:
         deploy:
           steps:
           - template: deploy.yml
+            parameters:
+              webSiteName: "Dev.Trainz.Tricia"
+              projectName: 'Dev.Trainz.Tricia'
+              appPoolName: 'Dev.Trainz.Trizia'
+
         
 - stage: 'Test'
   displayName: 'Deploy to the Test environment'
@@ -104,6 +103,10 @@ stages:
         deploy:
            steps:
             - template: deploy.yml
+              parameters:
+                webSiteName: "Test.Trainz.Tricia"
+                projectName: 'Test.Trainz.Tricia'
+                appPoolName: 'Test.Trainz.Trizia'
 
   - job: RunUITests
     dependsOn: Deploy
@@ -146,5 +149,9 @@ stages:
         deploy:
           steps:
           - template: deploy.yml
+            parameters:
+                webSiteName: "Trainz.Tricia"
+                projectName: 'Trainz.Tricia'
+                appPoolName: 'Trainz.Trizia'
 
 

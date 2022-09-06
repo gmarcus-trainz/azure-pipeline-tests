@@ -6,8 +6,7 @@ parameters:
     
 
 variables:
-- name: websitePhysicalPath
-  value: '%SystemDrive%\inetpub\wwwroot\${{parameters.websiteName}}'
+    websitePhysicalPath: '%SystemDrive%\inetpub\wwwroot\${{parameters.websiteName}}'
 
 steps:
 - download: current

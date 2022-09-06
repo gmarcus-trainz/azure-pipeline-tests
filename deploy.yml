@@ -3,7 +3,6 @@ parameters:
     projectName: 'Dev.Trainz.Tricia'
     appPoolName: 'Dev.Trainz.Trizia'
     buildConfiguration: 'Release'
-    websitePhysicalPath: '%SystemDrive%\inetpub\wwwroot\${{parameters.websiteName}}'
     
 steps:
 - download: current
@@ -14,7 +13,7 @@ steps:
               IISDeploymentType: 'IISWebsite'
               ActionIISWebsite: 'CreateOrUpdateWebsite'
               WebsiteName: '${{parameters.websiteName}}'
-              WebsitePhysicalPath: '${{ parameters.websitePhysicalPath}}'
+              WebsitePhysicalPath: '%SystemDrive%\inetpub\wwwroot\${{parameters.websiteName}}'
               WebsitePhysicalPathAuth: 'WebsiteUserPassThrough'
               CreateOrUpdateAppPoolForWebsite: true
               AppPoolNameForWebsite: '${{ parameters.appPoolName}}'

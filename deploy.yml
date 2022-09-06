@@ -1,3 +1,15 @@
+parameters:
+    webSiteName: "Dev.Trainz.Tricia"
+    projectName: 'Dev.Trainz.Tricia'
+    appPoolName: 'Dev.Trainz.Trizia'
+    
+
+variables:
+- name: websitePhysicalPath
+  value: '%SystemDrive%\inetpub\wwwroot\${{parameters.websiteName}}'
+- name: buildConfiguration
+  value: 'Release'
+
 steps:
 - download: current
   artifact: drop
@@ -6,11 +18,11 @@ steps:
             inputs:            
               IISDeploymentType: 'IISWebsite'
               ActionIISWebsite: 'CreateOrUpdateWebsite'
-              WebsiteName: '$(websiteName)'
+              WebsiteName: '${{parameters.websiteName}}'
               WebsitePhysicalPath: '$(websitePhysicalPath)'
               WebsitePhysicalPathAuth: 'WebsiteUserPassThrough'
               CreateOrUpdateAppPoolForWebsite: true
-              AppPoolNameForWebsite: '$(appPoolName)'
+              AppPoolNameForWebsite: '${{ parameters.appPoolName}}'
               DotNetVersionForWebsite: 'No Managed Code'
               PipeLineModeForWebsite: 'Integrated'
               AppPoolIdentityForWebsite: 'ApplicationPoolIdentity'
@@ -30,5 +42,5 @@ steps:
                   }
           - task: IISWebAppDeploymentOnMachineGroup@0
             inputs:
-              WebSiteName: '$(websiteName)'
-              Package: '$(Pipeline.Workspace)/drop/$(buildConfiguration)/$(projectName).zip'
+              WebSiteName: '${{parameters.websiteName}}'
+              Package: '$(Pipeline.Workspace)/drop/$(buildConfiguration)/${{parameters.projectName}}.zip'

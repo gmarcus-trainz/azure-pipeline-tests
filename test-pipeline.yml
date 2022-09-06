@@ -67,7 +67,7 @@ stages:
       eq(variables['Build.SourceBranchName'], variables['releaseBranchName'])
     )
   jobs:
-  - deployment: Deploy Dev
+  - deployment: Deploy_Dev
     pool:
       vmImage: "$(vmImageSource)"
     environment: 
@@ -89,7 +89,7 @@ stages:
   dependsOn: Dev
   condition: succeeded()  # and(succeeded(), eq(variables['Build.Reason'], 'Schedule'))
   jobs:
-  - deployment: Deploy Test
+  - deployment: Deploy_Test
     pool:
       vmImage: "$(vmImageSource)"
     environment: 
@@ -106,7 +106,7 @@ stages:
                 appPoolName: 'Test.Trainz.Trizia'
 
   - job: RunUITests
-    dependsOn: Deploy Test
+    dependsOn: Deploy_Test
     displayName: 'Run UI tests'
     pool:
        vmImage: "$(vmImageSource)"
@@ -137,7 +137,7 @@ stages:
   displayName: 'Deploy to the production environment'
   dependsOn: Test
   jobs:
-  - deployment: Deploy Production
+  - deployment: Deploy_Production
     pool:
       vmImage: "$(vmImageSource)"
     environment: 

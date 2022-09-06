@@ -137,6 +137,21 @@ stages:
   displayName: 'Deploy to the production environment'
   dependsOn: Test
   jobs:
+  - job: waitForValidation
+    dependsOn: 'RunUITests'
+    displayName: Wait for external validation  
+    pool: server    
+    timeoutInMinutes: 4320 # job times out in 3 days
+    steps:   
+    - task: ManualValidation@0
+      timeoutInMinutes: 1440 # task times out in 1 day
+      inputs:
+        notifyUsers: |
+          kcummings@trainz.com
+          bhanna@trainz.com
+          gmarcus@trainz.com
+        instructions: 'Please validate the build configuration and resume'
+        onTimeout: 'reject'
   - deployment: Deploy_Production
     pool:
       vmImage: "$(vmImageSource)"

@@ -29,6 +29,9 @@ variables:
   buildConfiguration: "Release"
   releaseBranchName: 'development'
   vmImageSource: 'windows-latest'
+  projectName: 'Trainz.Tricia'
+  websiteName: 'Trainz.Tricia'
+  appPoolName: 'Trainz.Trizia'
 
 stages:
 - stage: "Build"
@@ -75,7 +78,12 @@ stages:
   - deployment: Deploy
     pool:
       vmImage: "$(vmImageSource)"
-    environment: dev
+    environment: 
+       name: 'Dev'    
+       resourceType: VirtualMachine
+    variables:
+     - name: websitePhysicalPath
+       value: '%SystemDrive%\inetpub\wwwroot\$(websiteName)'
     strategy:
       runOnce:
         deploy:

@@ -2,13 +2,12 @@ parameters:
     webSiteName: "Dev.Trainz.Tricia"
     projectName: 'Dev.Trainz.Tricia'
     appPoolName: 'Dev.Trainz.Trizia'
+    buildConfiguration: 'Release'
     
 
 variables:
 - name: websitePhysicalPath
   value: '%SystemDrive%\inetpub\wwwroot\${{parameters.websiteName}}'
-- name: buildConfiguration
-  value: 'Release'
 
 steps:
 - download: current
@@ -43,4 +42,4 @@ steps:
           - task: IISWebAppDeploymentOnMachineGroup@0
             inputs:
               WebSiteName: '${{parameters.websiteName}}'
-              Package: '$(Pipeline.Workspace)/drop/$(buildConfiguration)/${{parameters.projectName}}.zip'
+              Package: '$(Pipeline.Workspace)/drop/${{parameters.buildConfiguration}}/${{parameters.projectName}}.zip'

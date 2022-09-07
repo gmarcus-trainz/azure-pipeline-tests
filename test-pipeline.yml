@@ -50,7 +50,7 @@ stages:
     - template: build.yml
       parameters:
         buildConfiguration: "$(buildConfiguration)"
-        
+
     - publish: '$(Build.ArtifactStagingDirectory)'
       artifact: drop
 
